@@ -1,6 +1,10 @@
 const app = require("express")();
 const PORT = 8080;
-const fs = require("fs");
+const cors = require("cors");
+
+// * Middleware
+
+app.use(cors());
 
 // * Import the routes
 
