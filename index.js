@@ -1,5 +1,6 @@
 const app = require("express")();
 const PORT = 8080;
+const fs = require("fs");
 
 // * Import the routes
 
@@ -13,6 +14,7 @@ app.get("/", (req, res) => {
 });
 
 // * Start the server
+
 app.listen(PORT, () => {
   console.log(`Server it's alive on http://localhost:${PORT}`);
 });
