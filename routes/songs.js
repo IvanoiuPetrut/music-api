@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const fs = require("fs");
 
-router.get("/", (req, res, next) => {
+router.get("/currently-playing", (req, res, next) => {
   let options = {
     root: __dirname + "\\songs\\",
     dotfiles: "deny",

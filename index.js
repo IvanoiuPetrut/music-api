@@ -14,7 +14,7 @@ app.use("/song", songRoute);
 // * Routes
 
 app.get("/", (req, res) => {
-  res.status(200).send("Home 🏠");
+  res.status(200).send("Home 🏠 ");
 });
 
 // * Start the server
