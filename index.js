@@ -1,10 +1,12 @@
-const app = require("express")();
+const express = require("express");
+const app = express();
 const PORT = 8080;
 const cors = require("cors");
 
 // * Middleware
 
 app.use(cors());
+app.use(express.json());
 
 // * Import the routes
 
