@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const fs = require("fs");
 
+let db = fs.readFileSync("./db.json");
+let dbJSON = JSON.parse(db);
+
 router.get("/currently-playing", (req, res, next) => {
   let options = {
     root: __dirname + "\\songs\\",
@@ -12,7 +15,14 @@ router.get("/currently-playing", (req, res, next) => {
     },
   };
 
-  let fileName = "kalif_fata-care-ma-dat-gata.mp3"; // ! This needs to be dynamic => req.params.name
+  let fileName;
+  dbJSON.songs.forEach((song) => {
+    console.log(song.currentlyPlaying);
+    if (song.currentlyPlaying) {
+      fileName = song.fileName;
+    }
+  });
+
   res.sendFile(fileName, options, (err) => {
     if (err) {
       next(err); //  This will send the error to the error handler
