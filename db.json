@@ -1,1 +1,16 @@
-{"songs":[{"title":"Fata care m-a dat gata","artist":"Kalif","fileName":"kalif_fata-care-ma-dat-gata.mp3","currentlyPlaying":false},{"title":"Gone","artist":"Puya","fileName":"puya_gone.mp3","currentlyPlaying":true}]}
+{
+  "songs": [
+    {
+      "title": "Fata care m-a dat gata",
+      "artist": "Kalif",
+      "fileName": "kalif_fata-care-ma-dat-gata.mp3",
+      "currentlyPlaying": false
+    },
+    {
+      "title": "Gone",
+      "artist": "Puya",
+      "fileName": "puya_gone.mp3",
+      "currentlyPlaying": true
+    }
+  ]
+}

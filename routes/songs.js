@@ -5,6 +5,38 @@ const fs = require("fs");
 let db = fs.readFileSync("./db.json");
 let dbJSON = JSON.parse(db);
 
+let songs = [
+  {
+    title: "Gone",
+    artist: "Puya",
+    fileName: "puya_gone.mp3",
+    currentlyPlaying: true,
+    duration: 232,
+    currentSecond: 0,
+  },
+  {
+    title: "Fata care m-a dat gata",
+    artist: "Kalif",
+    fileName: "kalif_fata-care-ma-dat-gata.mp3",
+    currentlyPlaying: false,
+    duration: 222,
+    currentSecond: 0,
+  },
+];
+
+setInterval(() => {
+  for (song of songs) {
+    if (song.currentlyPlaying) {
+      if (song.currentSecond < song.duration) {
+        song.currentSecond++;
+        console.log(song.title + song.currentSecond);
+      } else {
+        song.currentSecond = 0;
+      }
+    }
+  }
+}, 1000);
+
 router.get("/currently-playing", (req, res, next) => {
   let options = {
     root: __dirname + "\\songs\\",
@@ -15,48 +47,48 @@ router.get("/currently-playing", (req, res, next) => {
     },
   };
 
-  // ! Create a fucntion in dbHelper.js to get the current song
   let fileName;
-  dbJSON.songs.forEach((song) => {
-    console.log(song.currentlyPlaying);
+  for (song of songs) {
     if (song.currentlyPlaying) {
       fileName = song.fileName;
     }
-  });
+  }
 
-  res.sendFile(fileName, options, (err) => {
+  res.status(200).sendFile(fileName, options, (err) => {
     if (err) {
-      next(err); //  This will send the error to the error handler
+      next(err);
     } else {
       console.log("Sent:", fileName);
     }
   });
 });
 
+router.get("/currently-playing/details", (req, res) => {
+  for (song of songs) {
+    if (song.currentlyPlaying) {
+      res.status(200).json(song);
+    }
+  }
+});
+
 router.post("/currently-playing", (req, res) => {
-  // * Toggle the currentlyPlaying property of the song
-  // ! Create a fucntion in dbHelper.js to toggle the currentPlaying property
-  // ! Create a functions that parses the db.json and can take functions as arguments to modify the data before saving it
   const { songTitle } = req.body;
   let songFound = false;
-  dbJSON.songs.forEach((song) => {
-    console.log(song.currentlyPlaying);
-    if (song.currentlyPlaying) {
-      dbJSON.songs[dbJSON.songs.indexOf(song)].currentlyPlaying = false;
-    }
+
+  for (song of songs) {
     if (song.title === songTitle) {
-      dbJSON.songs[dbJSON.songs.indexOf(song)].currentlyPlaying = true;
+      song.currentlyPlaying = true;
       songFound = true;
+    } else {
+      song.currentlyPlaying = false;
     }
-    fs.writeFileSync("./db.json", JSON.stringify(dbJSON));
-  });
+  }
 
   if (songFound) {
     res.status(200).send("The current playing song is now: " + songTitle);
   } else {
     res.status(404).send("Song not found");
   }
-  // res.status(200).send("The current playin song is now: " + songTitle);
 });
 
 module.exports = router;
